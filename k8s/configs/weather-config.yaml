@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: weather-config
+  namespace: weather-app
 data:
   KAFKA_SERVERS: "kafka:9092"
   KAFKA_TOPIC_WEATHER: "weather_data"
@@ -21,12 +22,12 @@ data:
   PARQUET_BASE_DIR: "/data/parquet"
   DATA_DIR: "/app/data"
   
-  BATCH_SIZE: "10000"
+  BATCH_SIZE: "100"
   INDEXING_BATCH_SIZE: "100"
   MAX_RETRIES: "5"
   MAX_RECORD_AGE_HOURS: "6"
   BITCASK_MAX_FILE_SIZE: "256000"
-  REQUEST_INTERVAL: "1000"
+  REQUEST_INTERVAL: "100"
   BACKUP_INTERVAL_REQUESTS: "60"
   SEQUENCE_FILE_NAME: "sequence.txt"
   COMPACTION_INTERVAL_MINS: "10"

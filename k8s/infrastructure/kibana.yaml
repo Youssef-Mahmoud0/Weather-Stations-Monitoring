@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana
+  namespace: weather-app
 spec:
   replicas: 1
   selector:
@@ -15,7 +16,7 @@ spec:
       containers:
       - name: kibana
         image: docker.elastic.co/kibana/kibana:8.13.4
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
         - name: ELASTICSEARCH_HOSTS
           value: "http://elasticsearch:9200"

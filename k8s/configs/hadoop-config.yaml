@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: hadoop-config
+  namespace: weather-app
 data:
   core-site.xml: |
     <?xml version="1.0"?>

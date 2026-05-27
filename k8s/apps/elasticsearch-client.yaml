@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch-client
+  namespace: weather-app
 spec:
   replicas: 1
   selector:
@@ -14,8 +15,8 @@ spec:
     spec:
       containers:
       - name: elasticsearch-client
-        image: elasticsearch-client:latest
-        imagePullPolicy: Never
+        image: ghcr.io/mostafaelkaranshawy/elasticsearch-client:latest
+        imagePullPolicy: Always
         env:
         - name: ELASTICSEARCH_HOSTNAME
           valueFrom: { configMapKeyRef: { name: weather-config, key: ES_HOSTNAME } }

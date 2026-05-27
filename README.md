@@ -43,9 +43,9 @@ Each weather station:
 - Publishes one JSON message per second to Kafka
 - Randomly drops approximately 10% of messages to simulate real-world network conditions
 - Assigns battery status according to the following distribution:
-  - Low: 30%
-  - Medium: 40%
-  - High: 30%
+    - Low: 30%
+    - Medium: 40%
+    - High: 30%
 
 The sequence number (`s_no`) increments monotonically per station and is persisted to a checkpoint file so stations resume correctly after a restart. It also serves as the deduplication key in the central station's idempotent receiver.
 
@@ -151,6 +151,21 @@ k8s/
 ```
 
 ---
+
+## GitHub Actions CI Integration
+
+A `deploy.yml` workflow is triggered on pushes to the `main` branch and can also be manually dispatched. It performs the following steps:
+1. Checks out the code and sets up Java 21
+2. Builds the project with Maven, skipping tests for speed
+3. Provisions a `kind` cluster using `helm/kind-action`
+4. Applies all Kubernetes manifests to the cluster
+5. Updates all application workloads to use the latest images from GitHub Container Registry (GHCR
+6. If any step fails, a rollback job attempts to undo the last deployment using `kubectl rollout undo`
+7. The workflow uses the `GITHUB_TOKEN` secret to authenticate with GHCR for pushing and pulling images
+8. The workflow is designed to be idempotent and can be safely re-run if needed, with proper error handling and logging for debugging.
+9. The workflow also includes a step to verify the health of the deployed services after deployment, ensuring that the central station, Kafka Streams processor, and Open-Meteo adapter are running correctly before marking the deployment as successful.
+10. The workflow is structured to allow for easy extension in the future, such as adding integration tests or performance benchmarks after deployment.
+
 
 ## Tech Stack
 

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: weather-station
+  namespace: weather-app
 spec:
   serviceName: "weather-station"
   replicas: 10
@@ -15,8 +16,8 @@ spec:
     spec:
       containers:
       - name: weather-station
-        image: weather-station:latest
-        imagePullPolicy: Never
+        image: ghcr.io/mostafaelkaranshawy/weather-station:latest
+        imagePullPolicy: Always
         env:
         - name: KAFKA_BOOTSTRAP_SERVERS
           valueFrom: { configMapKeyRef: { name: weather-config, key: KAFKA_SERVERS } }

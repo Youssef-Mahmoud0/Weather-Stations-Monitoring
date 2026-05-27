@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: open-meteo-adapter
+  namespace: weather-app
 spec:
   replicas: 1
   selector:
@@ -14,8 +15,8 @@ spec:
     spec:
       containers:
       - name: open-meteo-adapter
-        image: open-meteo-adapter:latest
-        imagePullPolicy: Never
+        image: ghcr.io/mostafaelkaranshawy/open-meteo-adapter:latest
+        imagePullPolicy: Always
         env:
         - name: KAFKA_BOOTSTRAP_SERVERS
           valueFrom: { configMapKeyRef: { name: weather-config, key: KAFKA_SERVERS } }

@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: weather-data-pvc
+  namespace: weather-app
 spec:
   accessModes:
     - ReadWriteOnce

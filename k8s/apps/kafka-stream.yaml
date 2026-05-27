@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-stream
+  namespace: weather-app
 spec:
   replicas: 1
   selector:
@@ -14,8 +15,8 @@ spec:
     spec:
       containers:
       - name: kafka-stream
-        image: kafka-stream:latest
-        imagePullPolicy: Never
+        image: ghcr.io/mostafaelkaranshawy/kafka-stream:latest
+        imagePullPolicy: Always
         env:
         - name: BOOTSTRAP_SERVERS_CONFIG
           valueFrom: { configMapKeyRef: { name: weather-config, key: KAFKA_SERVERS } }
